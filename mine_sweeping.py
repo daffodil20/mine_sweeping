@@ -54,7 +54,7 @@ while n<11:
             m = Mine(mine_i,mine_j) # store x_y not i_j
             mine_array.append(m)
             n+=1
-print(mine_array)
+# print(mine_array)
                 # print("mineList: ",mine_array)
             
 def game_over():
@@ -98,12 +98,15 @@ class Block:
             for p in [-1,0,1]:
                 for q in [-1,0,1]: # nm=mine_array
                     if m.i_j[0]== i_j[0]+p and m.i_j[1] == i_j[1]+q:
+                        if p == 0 and q == 0:
                         # m_list.append(1)
                         # is_mine = True
                         # 15*(y-1)+x+p+15*q
-                        self.total += 1
-                    if m.i_j[0]== i_j[0]+p and m.i_j[1] == i_j[1]+q and p == 0 and q == 0:
-                        self.total += 0
+                            self.total += 0
+                        else:
+                            self.total += 1
+                    # if m.i_j[0]== i_j[0]+p and m.i_j[1] == i_j[1]+q and p == 0 and q == 0:
+                    #     self.total += 0
                         # if p == 0 and q == 0::
                         #     self.total += 0
                     else:
