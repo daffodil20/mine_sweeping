@@ -8,6 +8,7 @@ pygame.init()
 # running = True
 # set up screen
 screen = pygame.display.set_mode([DIMENSION,DIMENSION])
+screen.fill((55,0,0))
 class Mine:
     i_j = [0,0]
     is_reveal = False
@@ -35,26 +36,30 @@ mine_array = []
 # print(mine_array)
 
 
-n = 0
-while n<11:
+n = 1
+m_i = int(random()*15)
+m_j = int(random()*15)
+# mine_array.append([mine_i,mine_j])
+mm = Mine(m_i,m_j) # store x_y not i_j
+mine_array.append(mm)
+while n<10:
     mine_i = int(random()*15)
     mine_j = int(random()*15)
     # mine_array.append([mine_i,mine_j])
-    m = Mine(mine_i,mine_j) # store x_y not i_j
-    mine_array.append(m)
-    n+=1
+    
+ 
     a=0
-    if n>=1:
-        for t in mine_array:
-            if t.i_j != [mine_i, mine_j]:
-                a+=0
-            if t.i_j == [mine_i, mine_j]:
-                a+=1
-        if a == 0:
-            m = Mine(mine_i,mine_j) # store x_y not i_j
-            mine_array.append(m)
-            n+=1
-# print(mine_array)
+    # if n>=1:
+    for t in mine_array:
+        if t.i_j == [mine_i, mine_j]:
+            a+=1
+    if a == 0:
+        m = Mine(mine_i,mine_j) # store x_y not i_j
+        mine_array.append(m)
+        n+=1
+for t in mine_array:
+
+    print("mine_array:",t.i_j)
                 # print("mineList: ",mine_array)
             
 def game_over():
@@ -68,18 +73,18 @@ def reveal_mine(key_i,key_j,mn):
     for i in range(len(mn)):  
         if  mn[i].i_j[0] == key_i and mn[i].i_j[1] == key_j:
 # mine = pygame.Rect(mine_array[i][0],mine_array[i][1],20,20)
-            mn[i].rgb = [255,255,255]
+            # mn[i].rgb = [255,255,255]
             # pygame.display.update()
             # is_game_over = False
             # for j in range(len(mine_array)):
-            mine = pygame.Rect(mn[i].i_j[0]*20,mn[i].i_j[1]*20,20,20)
-            pygame.draw.rect(screen,mn[i].rgb,mine)
+            # mine = pygame.Rect(mn[i].i_j[0]*20,mn[i].i_j[1]*20,20,20)
+            # pygame.draw.rect(screen,mn[i].rgb,mine)
 
             # print("game over")
             # print(key_i,key_j)
             # print(mn[i].i_j[0],mn[i].i_j[1])
             game_over()
-            # return()
+            return()
     draw_numbers(key_i,key_j)        
                 # update
 class Block:
@@ -91,35 +96,18 @@ class Block:
     def __init__(self, i,j,nm) -> None:
         i_j = [i,j]
         # x = 0
-        # y = 0
+        # y = 0i_
         # x,y = reveal_mine(x,y)
         # record the number of mines around one block
         for m in nm:
-            if m.i_j[0] == i_j[0]:
+            if m.i_j[0] == i and m.i_j[1] == j:
                 break
             else:
                 for p in [-1,0,1]:
                     for q in [-1,0,1]: # nm=mine_array
-                        if m.i_j[0]== i_j[0]+p and m.i_j[1] == i_j[1]+q:
+                        if m.i_j[0] == i+p and m.i_j[1] == j+q:
                             self.total += 1
-                            # if p == 0 and q == 0:
-                            # # m_list.append(1)
-                            # # is_mine = True
-                            # # 15*(y-1)+x+p+15*q
-                            #     self.total += 0
-                        else:
-                            self.total += 0
-            # print("total_display: ",[i,j],":",m.total)
-        # print("mineList: ",m.i_j)
-        
-        # print("total_display: ",[i,j],":",m.total)
-                        # if m.i_j[0]== i_j[0]+p and m.i_j[1] == i_j[1]+q and p == 0 and q == 0:
-                        #     self.total += 0
-                            # if p == 0 and q == 0::
-                            #     self.total += 0
-                        # else:
-                        #     self.total += 0
-                # m_list.append(0)
+        print("total:",self.total)
 
     
 blocks = []
@@ -142,7 +130,9 @@ def draw_numbers(key_i, key_j):
             #     for q in [-1,0,1]:# label numbers
                     # x,y = 0
                     # x,y = click_draw_block(x,y)
+    
     blank = pygame.Rect(20*key_i,20*key_j,20,20)
+    # blank = pygame.Rect(b.i_j[0],b.,20,20)
     rgb = [170,170,170]
     pygame.draw.rect(screen,rgb,blank)
     # if blocks[(click_draw_block(key_x)+p)*(click_draw_block(key_y)+q)].total != 0:
@@ -150,7 +140,10 @@ def draw_numbers(key_i, key_j):
     #     numbers = blocks[key_i].total
     # if key_i == 0:
     #     numbers = blocks[key_j].total
-    numbers = blocks[15*(key_i-1)+key_j].total
+    # if key_i == 0:
+    #     numbers = blocks[key_j].total
+    # if key_i ==
+    numbers = blocks[15*key_i+key_j].total
     # numbers = blocks[key_i*key_j].total
     if numbers != 0:
         font=pygame.font.SysFont("Arial",18)
@@ -160,28 +153,6 @@ def draw_numbers(key_i, key_j):
         txtsurf=font.render(str(numbers).encode("utf-8").decode("utf-8"),True,(0,0,255))
         
         screen.blit(txtsurf,(20*key_i,20*key_j))
-        # n+=1
-# def timer():
-    # timer = time.time()
-# font=pygame.font.SysFont("Arial",10)
-# txtsurf = font.render(str(time.time()).encode("utf-8").decode("utf-8"),True,(0,0,255))
-# screen.blit(txtsurf,(10,10))
-    # if len(mine_array) == 10: 
-    # for a in range(10):
-    #     for b in range(10):
-    #         if mine_array[a] == mine_array[b] and a != b:
-    #             mine_array.clear()
-    #         else:
-    #             # print("mineList: ",m.i_j)
-    #             generating = False
-    # rgb.append((0,0,0))
-# print("mineList: ",mine_array)
-        # print(numbers)
-        # pygame.display.update()
-# font=pygame.font.SysFont("Arial",16)
-# txtsurf = font.render(str(time.time()).encode("utf-8").decode("utf-8"),True,(0,0,255))
-# screen.blit(txtsurf,(0,0))
-# pygame.display.update()
 is_game_over = True
 t = time.time()
 while is_game_over:
@@ -192,10 +163,10 @@ while is_game_over:
     # refill = pygame.Rect(22.5,22.5,45,45)
     # rgb = [0,0,0]
     # pygame.draw.rect(screen,rgb,refill)
-    screen.fill((0,0,0),(0,0,45,45))
+    screen.fill((0,0,0),(0,0,40,40))
     font=pygame.font.SysFont("Arial",15)
     txtsurf = font.render(str(int(time.time()-t)).encode("utf-8").decode("utf-8"),True,(255,255,255))
-    screen.blit(txtsurf,(15,15))
+    screen.blit(txtsurf,(20,20))
     # print(time.time()-t)
     for event in pygame.event.get():
         key_x, key_y = pygame.mouse.get_pos()
