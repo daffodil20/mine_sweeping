@@ -57,9 +57,9 @@ while n<10:
         m = Mine(mine_i,mine_j) # store x_y not i_j
         mine_array.append(m)
         n+=1
-for t in mine_array:
+# for t in mine_array:
 
-    print("mine_array:",t.i_j)
+    # print("mine_array:",t.i_j)
                 # print("mineList: ",mine_array)
             
 def game_over():
@@ -85,7 +85,7 @@ def reveal_mine(key_i,key_j,mn):
             # print(mn[i].i_j[0],mn[i].i_j[1])
             game_over()
             return()
-    draw_numbers(key_i,key_j)        
+    draw_numbers([[key_i,key_j]])        
                 # update
 class Block:
     x_y = [0,0]
@@ -107,14 +107,14 @@ class Block:
                     for q in [-1,0,1]: # nm=mine_array
                         if m.i_j[0] == i+p and m.i_j[1] == j+q:
                             self.total += 1
-        print("total:",self.total)
+        # print("total:",self.total)
 
     
 blocks = []
 for i in range(15):
     for j in range(15):
         b = Block(i, j, mine_array)
-        print("total_display: ",[i,j],":",b.total)
+        # print("total_display: ",[i,j],":",b.total)
         # b.click()
         blocks.append(b)
 
@@ -123,36 +123,82 @@ for i in range(15):
 # TODO: def draw_blocks
 # TODO: if the block doesn't have a mine, reveal the block and label number of mines surrounding it; else, only reveal the block and game over
 # TODO: condition1: reveal the mine and game over condition2: reveal the block and label numvers
-def draw_numbers(key_i, key_j):
-    # for i in range(len(mn)):  
-        # if  mn[i].x_y[0] != key_i or mn[i].x_y[1] !=key_j:
-            # for p in [-1,0,1]:
-            #     for q in [-1,0,1]:# label numbers
-                    # x,y = 0
-                    # x,y = click_draw_block(x,y)
+# def draw_numbers(key_i, key_j):
+#     if 15*key_i+key_j > 224 or 15*key_i+key_j < 0:
+#         for m in [-1,0,1]:
+#             for n in [-1,0,1]:
+#                 draw_numbers(key_i+m,key_j+n)
+#     else:
+#         numbers = blocks[15*key_i+key_j].total
     
-    blank = pygame.Rect(20*key_i,20*key_j,20,20)
-    # blank = pygame.Rect(b.i_j[0],b.,20,20)
-    rgb = [170,170,170]
-    pygame.draw.rect(screen,rgb,blank)
-    # if blocks[(click_draw_block(key_x)+p)*(click_draw_block(key_y)+q)].total != 0:
-    # if key_j == 0:
-    #     numbers = blocks[key_i].total
-    # if key_i == 0:
-    #     numbers = blocks[key_j].total
-    # if key_i == 0:
-    #     numbers = blocks[key_j].total
-    # if key_i ==
-    numbers = blocks[15*key_i+key_j].total
+#     # numbers = blocks[key_i*key_j].total
+#         if numbers == 0:
+#             for m in [-1,0,1]:
+#                 for n in [-1,0,1]:
+#                     if key_i+m<0 or key_i+m>14 or key_j+n<0 or key_j+n>14:
+#                         return()
+#                     else:
+#                         print("key_i:",key_i+m,key_j+n)
+#                         blank = pygame.Rect(20*(key_i+m),20*(key_j+n),20,20)
+#                         rgb = [170,170,170]
+#                         pygame.draw.rect(screen,rgb,blank)
+#                         draw_numbers(key_i+m,key_j+n)
+                    
+#         if numbers != 0:
+#             blank = pygame.Rect(20*key_i,20*key_j,20,20)
+#             rgb = [170,170,170]
+#             pygame.draw.rect(screen,rgb,blank)
+#             font=pygame.font.SysFont("Arial",18)
+#             # txtsurf=font.render(str("game over"),True,(0,0,255))
+#             # numbers = blocks[15*(key_y-1)+key_x].total
+#             # text = 1
+#             txtsurf=font.render(str(numbers).encode("utf-8").decode("utf-8"),True,(0,0,255))
+            
+#             screen.blit(txtsurf,(20*key_i,20*key_j))
+
+def draw_numbers(blocks_array):
+    for bb in blocks_array:
+        # if 15*bb[0]+bb[1] <= 224 and 15*bb[0]+bb[1] >= 0:
+            # for m in [-1,0,1]:
+            #     for n in [-1,0,1]:
+            #         draw_numbers(key_i+m,key_j+n)
+        # else:
+        numbers = blocks[15*bb[0]+bb[1]].total
+        blocks_array.remove(bb)
     # numbers = blocks[key_i*key_j].total
-    if numbers != 0:
-        font=pygame.font.SysFont("Arial",18)
-        # txtsurf=font.render(str("game over"),True,(0,0,255))
-        # numbers = blocks[15*(key_y-1)+key_x].total
-        # text = 1
-        txtsurf=font.render(str(numbers).encode("utf-8").decode("utf-8"),True,(0,0,255))
-        
-        screen.blit(txtsurf,(20*key_i,20*key_j))
+        if numbers == 0:
+            for m in [-1,0,1]:
+                for n in [-1,0,1]:
+                    if bb[0]+m<0 or bb[0]+m>14 or bb[1]+n<0 or bb[1]+n>14:
+                        return()
+                    else:
+                        # print("key_i:",bb[0]+m,bb[1]+n)
+                        # blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
+                        # rgb = [170,170,170]
+                        # pygame.draw.rect(screen,rgb,blank)
+                        if m == 0 and n == 0:
+                            return()
+                        else:
+                            print("key_i:",bb[0]+m,bb[1]+n)
+                            blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
+                            rgb = [170,170,170]
+                            pygame.draw.rect(screen,rgb,blank)
+                            blocks_array.append([bb[0]+m,bb[1]+n])
+            draw_numbers(blocks_array)
+                    
+        if numbers != 0:
+            blank = pygame.Rect(20*key_i,20*key_j,20,20)
+            rgb = [170,170,170]
+            pygame.draw.rect(screen,rgb,blank)
+            font=pygame.font.SysFont("Arial",18)
+            # txtsurf=font.render(str("game over"),True,(0,0,255))
+            # numbers = blocks[15*(key_y-1)+key_x].total
+            # text = 1
+            txtsurf=font.render(str(numbers).encode("utf-8").decode("utf-8"),True,(0,0,255))
+            
+            screen.blit(txtsurf,(20*key_i,20*key_j))
+
+
 is_game_over = True
 t = time.time()
 while is_game_over:
