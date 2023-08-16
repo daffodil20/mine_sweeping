@@ -57,9 +57,8 @@ while n<10:
         m = Mine(mine_i,mine_j) # store x_y not i_j
         mine_array.append(m)
         n+=1
-# for t in mine_array:
-
-    # print("mine_array:",t.i_j)
+for t in mine_array:
+    print("mine_array:",t.i_j)
                 # print("mineList: ",mine_array)
             
 def game_over():
@@ -169,25 +168,30 @@ def draw_numbers(blocks_array):
         if numbers == 0:
             for m in [-1,0,1]:
                 for n in [-1,0,1]:
-                    if bb[0]+m<0 or bb[0]+m>14 or bb[1]+n<0 or bb[1]+n>14:
-                        return()
+                    if m == 0 and n == 0:
+                        continue
+                    # if bb[0]+m<0 or bb[0]+m>14 or bb[1]+n<0 or bb[1]+n>14:
+                        # if 15*(bb[0]+m)+bb[1]+n<0 or 15*(bb[0]+m)+bb[1]+n>224:
+                            # return()
                     else:
+                        if 15*(bb[0]+m)+bb[1]+n>0 and 15*(bb[0]+m)+bb[1]+n<224:
+                            # continue
                         # print("key_i:",bb[0]+m,bb[1]+n)
                         # blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                         # rgb = [170,170,170]
                         # pygame.draw.rect(screen,rgb,blank)
-                        if m == 0 and n == 0:
-                            return()
-                        else:
+                        # if m == 0 and n == 0:
+                        #     return()
+                        
                             print("key_i:",bb[0]+m,bb[1]+n)
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
-                            pygame.draw.rect(screen,rgb,blank)
+                            pygame.draw.rect(screen,rgb,blank)                            
                             blocks_array.append([bb[0]+m,bb[1]+n])
             draw_numbers(blocks_array)
                     
         if numbers != 0:
-            blank = pygame.Rect(20*key_i,20*key_j,20,20)
+            blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
             rgb = [170,170,170]
             pygame.draw.rect(screen,rgb,blank)
             font=pygame.font.SysFont("Arial",18)
@@ -196,7 +200,8 @@ def draw_numbers(blocks_array):
             # text = 1
             txtsurf=font.render(str(numbers).encode("utf-8").decode("utf-8"),True,(0,0,255))
             
-            screen.blit(txtsurf,(20*key_i,20*key_j))
+            screen.blit(txtsurf,(20*bb[0],20*bb[1]))
+            
 
 
 is_game_over = True
