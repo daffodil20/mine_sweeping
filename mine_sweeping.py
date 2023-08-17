@@ -3,7 +3,7 @@ from random import random
 import time
 DIMENSION = 300
 LEFT = 1
-
+counter = 0
 pygame.init()
 # running = True
 # set up screen
@@ -63,7 +63,7 @@ def reveal_mine(key_i,key_j,mn):
 class Block:
     x_y = [0,0]
     is_reveal = False
-    is_mine = False
+    # is_mine = False
     # m_list = [] # [0,0,1,1,0,0,1,0]
     total = 0
     def __init__(self, i,j,nm) -> None:
@@ -127,14 +127,22 @@ for i in range(15):
 #             screen.blit(txtsurf,(20*key_i,20*key_j))
 
 def reveal_blocks(blocks_array):
+    # global counter
+    # if counter < 60:
+    print("bb:",blocks_array)
+        # counter += 1
     for bb in blocks_array:
-        
+        # print("bb:",bb)
         # if 15*bb[0]+bb[1] <= 224 and 15*bb[0]+bb[1] >= 0:
             # for m in [-1,0,1]:
             #     for n in [-1,0,1]:
             #         draw_numbers(key_i+m,key_j+n)
         # else:
         # numbers = blocks[15*bb[0]+bb[1]].total
+        blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
+        rgb = [170,170,170]
+        pygame.draw.rect(screen,rgb,blank)
+        blocks[15*bb[0]+bb[1]].is_reveal = True
         blocks_array.remove(bb)
     # numbers = blocks[key_i*key_j].total
         # if numbers == 0:
@@ -147,7 +155,7 @@ def reveal_blocks(blocks_array):
                     # if 15*(bb[0]+m)+bb[1]+n<0 or 15*(bb[0]+m)+bb[1]+n>224:
                         # return()
                 else:
-                    if 15*(bb[0]+m)+bb[1]+n >= 0 and 15*(bb[0]+m)+bb[1]+n <= 224:
+                    if bb[0]+m >= 0 and bb[0]+m <= 14 and bb[1]+n >= 0 and bb[1]+n <= 14:
                         # continue
                     # print("key_i:",bb[0]+m,bb[1]+n)
                     # blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
@@ -156,26 +164,28 @@ def reveal_blocks(blocks_array):
                     # if m == 0 and n == 0:
                     #     return()
                     
-                        print("key_i:",bb[0]+m,bb[1]+n)
+                        # print("key_i:",bb[0]+m,bb[1]+n)
                         NUM = blocks[15*(bb[0]+m)+bb[1]+n].total
-                        if NUM != 0:
+                        if NUM != 0 and blocks[15*(bb[0]+m)+bb[1]+n].is_reveal == False:
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
                             pygame.draw.rect(screen,rgb,blank)
                             font=pygame.font.SysFont("Arial",18)
                             txtsurf=font.render(str(NUM).encode("utf-8").decode("utf-8"),True,(0,0,255))
                             screen.blit(txtsurf,(20*(bb[0]+m),20*(bb[1]+n)))
+                            blocks[15*(bb[0]+m)+bb[1]+n].is_reveal = True
                             continue
                         
-                        if NUM == 0:
+                        if NUM == 0 and blocks[15*(bb[0]+m)+bb[1]+n].is_reveal == False:
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
-                            pygame.draw.rect(screen,rgb,blank)                            
+                            pygame.draw.rect(screen,rgb,blank)
+                            blocks[15*(bb[0]+m)+bb[1]+n].is_reveal = True
                             temp_array.append([bb[0]+m,bb[1]+n])
                     else:
                         continue
 
-            reveal_blocks(temp_array)
+        reveal_blocks(temp_array)
                    
         # if numbers != 0:
         #     blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
