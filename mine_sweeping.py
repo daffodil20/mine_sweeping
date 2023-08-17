@@ -134,10 +134,11 @@ def reveal_blocks(blocks_array):
             #     for n in [-1,0,1]:
             #         draw_numbers(key_i+m,key_j+n)
         # else:
-        numbers = blocks[15*bb[0]+bb[1]].total
+        # numbers = blocks[15*bb[0]+bb[1]].total
         blocks_array.remove(bb)
     # numbers = blocks[key_i*key_j].total
         # if numbers == 0:
+        temp_array = []
         for m in [-1,0,1]:
             for n in [-1,0,1]:
                 if m == 0 and n == 0:
@@ -170,9 +171,11 @@ def reveal_blocks(blocks_array):
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
                             pygame.draw.rect(screen,rgb,blank)                            
-                            blocks_array.append([bb[0]+m,bb[1]+n])
-                            
-            reveal_blocks(blocks_array)
+                            temp_array.append([bb[0]+m,bb[1]+n])
+                    else:
+                        continue
+
+            reveal_blocks(temp_array)
                    
         # if numbers != 0:
         #     blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
