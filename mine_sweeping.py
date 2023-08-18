@@ -77,8 +77,8 @@ class Block:
                     for q in [-1,0,1]: # nm=mine_array
                         if m.i_j[0] == i+p and m.i_j[1] == j+q:
                             self.total += 1
-        # print("total:",self.total)
-
+        print("total:",i_j,self.total)
+        
     
 blocks = []
 for i in range(15):
@@ -139,10 +139,10 @@ def reveal_blocks(blocks_array):
             #         draw_numbers(key_i+m,key_j+n)
         # else:
         # numbers = blocks[15*bb[0]+bb[1]].total
-        blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
-        rgb = [170,170,170]
-        pygame.draw.rect(screen,rgb,blank)
-        blocks[15*bb[0]+bb[1]].is_reveal = True
+        # blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
+        # rgb = [170,170,170]
+        # pygame.draw.rect(screen,rgb,blank)
+        # blocks[15*bb[0]+bb[1]].is_reveal = True
         blocks_array.remove(bb)
     # numbers = blocks[key_i*key_j].total
         # if numbers == 0:
@@ -170,8 +170,8 @@ def reveal_blocks(blocks_array):
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
                             pygame.draw.rect(screen,rgb,blank)
-                            font=pygame.font.SysFont("Arial",18)
-                            txtsurf=font.render(str(NUM).encode("utf-8").decode("utf-8"),True,(0,0,255))
+                            font = pygame.font.SysFont("Arial",18)
+                            txtsurf = font.render(str(NUM).encode("utf-8").decode("utf-8"),True,(0,0,255))
                             screen.blit(txtsurf,(20*(bb[0]+m),20*(bb[1]+n)))
                             blocks[15*(bb[0]+m)+bb[1]+n].is_reveal = True
                             continue
@@ -186,7 +186,10 @@ def reveal_blocks(blocks_array):
                         continue
 
         reveal_blocks(temp_array)
-                   
+def reveal_state():
+    for x in range(15):
+        for y in range(15):
+            print("is_reveal",15*x+y,blocks[15*x+y].is_reveal)
         # if numbers != 0:
         #     blank = pygame.Rect(20*bb[0],20*bb[1],20,20)
         #     rgb = [170,170,170]
@@ -221,6 +224,7 @@ while is_game_over:
         
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
             reveal_mine(key_i, key_j, mine_array)
+            reveal_state()
             # print(key_i,key_j)
     pygame.display.update()
     # pygame.display.flip()
