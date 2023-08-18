@@ -74,9 +74,12 @@ class Block:
                 break
             else:
                 for p in [-1,0,1]:
-                    for q in [-1,0,1]: # nm=mine_array
+                    for q in [-1,0,1]:
                         if m.i_j[0] == i+p and m.i_j[1] == j+q:
-                            self.total += 1
+                            if p == 0 and q == 0:
+                                self.total -= 1# nm=mine_array
+                            else:
+                                self.total += 1
         print("total:",i_j,self.total)
         
     
@@ -166,7 +169,7 @@ def reveal_blocks(blocks_array):
                     
                         # print("key_i:",bb[0]+m,bb[1]+n)
                         NUM = blocks[15*(bb[0]+m)+bb[1]+n].total
-                        if NUM != 0 and blocks[15*(bb[0]+m)+bb[1]+n].is_reveal == False:
+                        if NUM != 0 and NUM !=-1 and blocks[15*(bb[0]+m)+bb[1]+n].is_reveal == False:
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
                             pygame.draw.rect(screen,rgb,blank)
@@ -176,7 +179,7 @@ def reveal_blocks(blocks_array):
                             blocks[15*(bb[0]+m)+bb[1]+n].is_reveal = True
                             continue
                         
-                        if NUM == 0 and blocks[15*(bb[0]+m)+bb[1]+n].is_reveal == False:
+                        if NUM == 0 and NUM != -1 and blocks[15*(bb[0]+m)+bb[1]+n].is_reveal == False:
                             blank = pygame.Rect(20*(bb[0]+m),20*(bb[1]+n),20,20)
                             rgb = [170,170,170]
                             pygame.draw.rect(screen,rgb,blank)
