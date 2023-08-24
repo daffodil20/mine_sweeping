@@ -7,7 +7,7 @@ def match_block1(click):
     def match_block2(bb):
         print(click,bb)
         return(click+bb)
-    return match_block2
+    return match_block2(bb)
 
 m2 = match_block1(2)
 map(m2,blocks)

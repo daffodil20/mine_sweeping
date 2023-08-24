@@ -59,11 +59,12 @@ def game_over():
     print("show me game over")
 
 def compare1(click):
+    # print(click)
     def compare2(mine):
-        print(click,mine)
-        if click[0] == mine[0] and click[1] == mine[1]:
+        # print(click,mine)
+        if click[0] == mine.i_j[0] and click[1] == mine.i_j[1]:
             game_over()
-            print("game over")
+            # print("game over")
     return(compare2)
 # b = compare1([key_i,key_j])
 # map(b,mine_array)
@@ -150,7 +151,7 @@ while is_game_over:
         
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
             b = compare1([key_i,key_j])
-            map(b,mine_array)
+            list(map(b,mine_array))
             reveal_mine(key_i, key_j)
             # filter(reveal_blocks,[key_i,key_j])
     pygame.display.update()
